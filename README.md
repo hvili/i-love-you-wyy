@@ -4,7 +4,7 @@
 
 线上页面：[中秋代码雨祝福](https://hvili.github.io/i-love-you-wyy/)
 
-家人版：[中秋代码雨祝福（家人版）](https://hvili.github.io/i-love-you-wyy/family.html)
+家人版：[中秋代码雨祝福（家人版）](https://hvili.github.io/family.html)
 
 ## 本地预览
 
