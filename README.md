@@ -2,7 +2,7 @@
 
 纯静态中秋祝福页：手机竖屏时以纯黑背景铺满可视区域，持续落下「中秋快乐」字符，中央用发光点阵依次呈现祝福。只使用 HTML、CSS、原生 JavaScript 和 Canvas，无依赖、构建流程、接口或后端。
 
-线上页面：[中秋代码雨祝福](https://hvili.github.io/mid-autumn-code-rain/)
+线上页面：[中秋代码雨祝福](https://hvili.github.io/i-love-you-wyy/)
 
 ## 本地预览
 
