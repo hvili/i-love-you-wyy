@@ -62,6 +62,16 @@ button {
   background: #000;
 }
 
+@media (orientation: portrait) {
+  .scene {
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    transform: none;
+  }
+}
+
 .canvas {
   position: absolute;
   inset: 0;

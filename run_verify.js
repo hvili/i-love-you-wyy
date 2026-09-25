@@ -211,7 +211,7 @@ async function main() {
     await cdp.send("Emulation.setDeviceMetricsOverride", {
       width: 390,
       height: 844,
-      deviceScaleFactor: 2,
+      deviceScaleFactor: 3,
       mobile: true
     });
     await cdp.send("Page.navigate", { url: siteUrl });
@@ -249,6 +249,7 @@ async function main() {
         docHeight: document.documentElement.scrollHeight,
         scene: (() => { const r = document.getElementById('scene').getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height }; })(),
         rainCanvas: { width: document.getElementById('rain-canvas').width, height: document.getElementById('rain-canvas').height },
+        particleCanvas: { width: document.getElementById('particle-canvas').width, height: document.getElementById('particle-canvas').height },
         musicHidden: document.getElementById('music-toggle').hidden
       }))()`);
     }
@@ -269,8 +270,13 @@ async function main() {
     if (mobile.docWidth !== mobile.width || mobile.docHeight !== mobile.height) {
       throw new Error(`Mobile page scrolls: document ${mobile.docWidth}×${mobile.docHeight}, viewport ${mobile.width}×${mobile.height}`);
     }
-    if (Math.abs(mobile.scene.width / mobile.scene.height - 16 / 9) > 0.015) throw new Error("The scene is not 16:9.");
-    if (mobile.rainCanvas.width !== Math.round(mobile.scene.width * Math.min(mobile.dpr, 2))) throw new Error("Rain canvas DPR is incorrect.");
+    if (Math.abs(mobile.scene.x) > 1 || Math.abs(mobile.scene.y) > 1 ||
+        Math.abs(mobile.scene.width - mobile.width) > 1 || Math.abs(mobile.scene.height - mobile.height) > 1) {
+      throw new Error(`Portrait scene does not fill the viewport: ${JSON.stringify(mobile.scene)}`);
+    }
+    const expectedRainScale = mobile.width < 500 && mobile.height > mobile.width ? Math.min(mobile.dpr, 1.75) : Math.min(mobile.dpr, 2);
+    if (mobile.rainCanvas.width !== Math.round(mobile.scene.width * expectedRainScale)) throw new Error("Rain canvas scale is incorrect.");
+    if (mobile.particleCanvas.width !== Math.round(mobile.scene.width * Math.min(mobile.dpr, 2))) throw new Error("Particle canvas DPR is incorrect.");
     const startedAt = Date.now();
     arrivals.push({ index: 0, text: mobile.text, elapsedSeconds: 0 });
     console.log(`[0s] ${mobile.text}`);
