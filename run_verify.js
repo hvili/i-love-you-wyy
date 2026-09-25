@@ -5,20 +5,37 @@ const net = require("node:net");
 const { spawn, execFileSync } = require("node:child_process");
 
 const root = __dirname;
-const expectedMessages = [
-  "今晚月色很好",
-  "西安有月亮",
-  "长沙也有月亮",
-  "只是我的身边",
-  "少了一个你",
-  "那就先把思念",
-  "藏进今晚的月光里",
-  "让它替我去长沙看看你",
-  "等下一次见面",
-  "再慢慢告诉你",
-  "我有多想你",
-  "中秋快乐 ♡"
-];
+const MESSAGE_SEQUENCES = {
+  default: [
+    "今晚月色很好",
+    "西安有月亮",
+    "长沙也有月亮",
+    "只是我的身边",
+    "少了一个你",
+    "那就先把思念",
+    "藏进今晚的月光里",
+    "让它替我去长沙看看你",
+    "等下一次见面",
+    "再慢慢告诉你",
+    "我有多想你",
+    "中秋快乐 ♡"
+  ],
+  family: [
+    "花好月圆",
+    "阖家团圆",
+    "身体健康",
+    "幸福美满",
+    "金玉满堂",
+    "心想事成",
+    "万事如意",
+    "平安喜乐",
+    "阖家欢乐",
+    "中秋快乐"
+  ]
+};
+const requestedPath = process.argv[2] || "/";
+const isFamilyPage = requestedPath.split("?")[0].replace(/\\/g, "/") === "/family.html";
+const expectedMessages = isFamilyPage ? MESSAGE_SEQUENCES.family : MESSAGE_SEQUENCES.default;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -173,6 +190,7 @@ async function main() {
   const sitePort = server.address().port;
   const devToolsPort = await freePort();
   const siteUrl = `http://127.0.0.1:${sitePort}/`;
+  const pageUrl = new URL(requestedPath, siteUrl).href;
   const devToolsUrl = `http://127.0.0.1:${devToolsPort}`;
   const profileDir = path.join(outputDir, "browser-profile");
   fs.mkdirSync(profileDir, { recursive: true });
@@ -214,7 +232,7 @@ async function main() {
       deviceScaleFactor: 3,
       mobile: true
     });
-    await cdp.send("Page.navigate", { url: siteUrl });
+    await cdp.send("Page.navigate", { url: pageUrl });
 
     async function evaluate(expression, awaitPromise = false) {
       const result = await cdp.send("Runtime.evaluate", {
@@ -242,6 +260,7 @@ async function main() {
         text: document.getElementById('sr-status').textContent,
         index: Number(document.getElementById('app').dataset.messageIndex),
         phase: document.getElementById('app').dataset.phase,
+        greetingSet: document.body.dataset.greetingSet || 'default',
         width: innerWidth,
         height: innerHeight,
         dpr: devicePixelRatio,
@@ -266,6 +285,7 @@ async function main() {
       mobile = await snapshot();
     }
     if (!mobile.text || mobile.text === "中秋祝福准备中") throw new Error("The greeting page did not start.");
+    if (mobile.greetingSet !== (isFamilyPage ? "family" : "default")) throw new Error(`Wrong greeting set on ${pageUrl}: ${mobile.greetingSet}`);
     if (mobile.width !== 390 || mobile.height !== 844) throw new Error(`Unexpected mobile viewport: ${mobile.width}×${mobile.height}`);
     if (mobile.docWidth !== mobile.width || mobile.docHeight !== mobile.height) {
       throw new Error(`Mobile page scrolls: document ${mobile.docWidth}×${mobile.docHeight}, viewport ${mobile.width}×${mobile.height}`);
@@ -339,7 +359,7 @@ async function main() {
       arrivals.push({ index, text: current.text, elapsedSeconds: Math.round((Date.now() - startedAt) / 100) / 10 });
       console.log(`[${arrivals.at(-1).elapsedSeconds}s] ${current.text}`);
 
-      if (index === 11) {
+      if (index === expectedMessages.length - 1) {
         const hiddenState = await evaluate(`(() => {
           const canvas = document.getElementById('rain-canvas');
           const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
@@ -363,21 +383,42 @@ async function main() {
         console.log("Visibility pause/resume: passed");
       }
 
-      if ([4, 7, 10, 11].includes(index)) {
+      const finalIndex = expectedMessages.length - 1;
+      if ([4, 7, 10, finalIndex].includes(index)) {
         const phaseDeadline = Date.now() + 4500;
         while (Date.now() < phaseDeadline) {
           current = await snapshot();
           if (current.index === index && (current.phase === "hold" || current.phase === "final")) break;
           await sleep(80);
         }
-        const fileNames = {
+        const defaultFileNames = {
           4: "02-less-one-you.png",
           7: "03-long-message.png",
-          10: "04-how-much-i-miss-you.png",
-          11: "05-final-mid-autumn.png"
+          10: "04-how-much-i-miss-you.png"
         };
-        await capture(fileNames[index]);
+        const familyFileNames = {
+          4: "02-family-blessing.png",
+          7: "03-family-blessing.png"
+        };
+        const fileName = index === finalIndex
+          ? (isFamilyPage ? "04-family-final.png" : "05-final-mid-autumn.png")
+          : (isFamilyPage ? familyFileNames[index] : defaultFileNames[index]);
+        await capture(fileName);
       }
+    }
+    let finalState = await snapshot();
+    const finalDeadline = Date.now() + 6000;
+    while ((finalState.index !== expectedMessages.length - 1 || finalState.phase !== "final") && Date.now() < finalDeadline) {
+      await sleep(100);
+      finalState = await snapshot();
+    }
+    if (finalState.index !== expectedMessages.length - 1 || finalState.text !== expectedMessages.at(-1) || finalState.phase !== "final") {
+      throw new Error(`Final greeting did not settle: ${JSON.stringify(finalState)}`);
+    }
+    await sleep(1200);
+    const retainedFinal = await snapshot();
+    if (retainedFinal.text !== expectedMessages.at(-1) || retainedFinal.phase !== "final") {
+      throw new Error("The final greeting did not remain on screen.");
     }
     const intervals = [];
     for (let i = 1; i < arrivals.length; i += 1) {
@@ -419,7 +460,7 @@ async function main() {
 
     const report = {
       browser: version.Browser,
-      url: siteUrl,
+      url: pageUrl,
       mobileViewport: { width: mobile.width, height: mobile.height, dpr: mobile.dpr, document: `${mobile.docWidth}×${mobile.docHeight}`, scene: mobile.scene },
       visibleCanvasSamples: visualCounts,
       sampledAnimationFps: fps.fps,
