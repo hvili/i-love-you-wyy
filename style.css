@@ -1,0 +1,141 @@
+:root {
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #000;
+  color: #f7f9f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #000;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+button {
+  font: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.app {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+
+.scene {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(100vw, 177.7778vh);
+  height: min(56.25vw, 100vh);
+  width: min(100vw, 177.7778dvh);
+  height: min(56.25vw, 100dvh);
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  background: #000;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.canvas-rain {
+  z-index: 0;
+}
+
+.canvas-particles {
+  z-index: 1;
+}
+
+.music-toggle {
+  position: absolute;
+  z-index: 2;
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
+  right: calc(env(safe-area-inset-right, 0px) + 8px);
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(219, 233, 227, 0.48);
+  font-size: 16px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.music-toggle[aria-pressed="true"] {
+  color: rgba(244, 248, 246, 0.9);
+  text-shadow: 0 0 10px rgba(191, 221, 211, 0.55);
+}
+
+.music-toggle:focus-visible {
+  outline: 1px solid rgba(239, 247, 243, 0.78);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.no-script-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  color: #f7f9f7;
+  font-size: clamp(24px, 8vw, 42px);
+  letter-spacing: 0.12em;
+}
+
+@media (max-height: 480px) {
+  .music-toggle {
+    top: 4px;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+  }
+}
