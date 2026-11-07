@@ -103,7 +103,7 @@ button {
   border-radius: 50%;
   background: transparent;
   color: rgba(219, 233, 227, 0.48);
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   touch-action: manipulation;
 }
