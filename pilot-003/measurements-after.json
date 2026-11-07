@@ -1,0 +1,224 @@
+{
+  "mode": "after",
+  "root": "/data/workspace/dsh-superagent/state/work/add-click-skip-greeting-5ef62595cd28",
+  "viewport": "390x844 CSS px, DPR 2",
+  "steps": [
+    {
+      "step": "initial",
+      "text": "今晚月色很好",
+      "index": 0,
+      "phase": "hold",
+      "greetingSet": "default",
+      "scene": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "step": "click-scene",
+      "clickedAfterMs": 1153,
+      "plus300": {
+        "text": "西安有月亮",
+        "index": 1,
+        "phase": "assemble",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      "plus1000": {
+        "text": "西安有月亮",
+        "index": 1,
+        "phase": "hold",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "click-during-dissolve",
+      "dissolveState": {
+        "text": "西安有月亮",
+        "index": 1,
+        "phase": "dissolve",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      "afterDissolve": {
+        "text": "长沙也有月亮",
+        "index": 2,
+        "phase": "assemble",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "click-music-button",
+      "musicState": {
+        "x": 363,
+        "y": 27,
+        "hit": "music-toggle",
+        "rect": {
+          "x": 344,
+          "y": 8,
+          "width": 38,
+          "height": 38
+        }
+      },
+      "beforeMusic": {
+        "text": "长沙也有月亮",
+        "index": 2,
+        "phase": "assemble",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      "afterMusic": {
+        "text": "长沙也有月亮",
+        "index": 2,
+        "phase": "assemble",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "skip-to-last",
+      "clicks": 9,
+      "atLast": {
+        "text": "中秋快乐 ♡",
+        "index": 11,
+        "phase": "assemble",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "click-last-to-final",
+      "finalState": {
+        "text": "中秋快乐 ♡",
+        "index": 11,
+        "phase": "final",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "final-retained",
+      "retainedFinal": {
+        "text": "中秋快乐 ♡",
+        "index": 11,
+        "phase": "final",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "click-in-final",
+      "afterFinalClicks": {
+        "text": "中秋快乐 ♡",
+        "index": 11,
+        "phase": "final",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "step": "family-click",
+      "family": {
+        "text": "阖家团圆",
+        "index": 1,
+        "phase": "assemble",
+        "greetingSet": "family",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    }
+  ],
+  "screenshots": [
+    "before-click.png",
+    "after-click.png",
+    "final.png"
+  ],
+  "verified": "After: click skips assemble/hold/dissolve, last message settles final, final/loading are inert, music button click does not skip, family page skips, no console errors.",
+  "browser": "Chrome/154.0.8037.57",
+  "consoleErrors": [],
+  "optionalMusic": "disabled; no request",
+  "defaultMessages": [
+    "今晚月色很好",
+    "西安有月亮",
+    "长沙也有月亮",
+    "只是我的身边",
+    "少了一个你",
+    "那就先把思念",
+    "藏进今晚的月光里",
+    "让它替我去长沙看看你",
+    "等下一次见面",
+    "再慢慢告诉你",
+    "我有多想你",
+    "中秋快乐 ♡"
+  ],
+  "familyMessages": [
+    "花好月圆",
+    "阖家团圆",
+    "身体健康",
+    "幸福美满",
+    "金玉满堂",
+    "心想事成",
+    "万事如意",
+    "平安喜乐",
+    "阖家欢乐",
+    "中秋快乐"
+  ]
+}

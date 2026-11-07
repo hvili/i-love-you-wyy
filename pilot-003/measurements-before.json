@@ -1,0 +1,56 @@
+{
+  "mode": "baseline",
+  "root": "/tmp/pilot3-baseline",
+  "viewport": "390x844 CSS px, DPR 2",
+  "steps": [
+    {
+      "step": "initial",
+      "text": "今晚月色很好",
+      "index": 0,
+      "phase": "hold",
+      "greetingSet": "default",
+      "scene": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "step": "click-scene",
+      "clickedAfterMs": 1131,
+      "plus300": {
+        "text": "今晚月色很好",
+        "index": 0,
+        "phase": "hold",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      "plus1000": {
+        "text": "今晚月色很好",
+        "index": 0,
+        "phase": "hold",
+        "greetingSet": "default",
+        "scene": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      }
+    }
+  ],
+  "screenshots": [
+    "before-click.png",
+    "after-click.png"
+  ],
+  "verified": "Baseline: clicking #scene does not skip; first message continues.",
+  "browser": "Chrome/154.0.8037.57",
+  "consoleErrors": [],
+  "optionalMusic": null
+}
