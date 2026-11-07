@@ -464,6 +464,18 @@ const messages = MESSAGE_SETS[document.body.dataset.greetingSet] || MESSAGE_SETS
     musicButton.hidden = false;
   }
 
+  function skipCurrentMessage() {
+    if (phase === "loading" || phase === "final") return;
+    if (messageIndex + 1 < messages.length) {
+      beginMessage(messageIndex + 1);
+    } else {
+      // Skipping the last message mid-assemble would freeze its half-drawn
+      // trails in place; clear them so the final frame matches the natural one.
+      particleContext.clearRect(0, 0, width, height);
+      setPhase("final");
+    }
+  }
+
   async function toggleMusic() {
     if (!audio) return;
     if (!audio.paused) {
@@ -490,6 +502,7 @@ const messages = MESSAGE_SETS[document.body.dataset.greetingSet] || MESSAGE_SETS
     else startAnimation();
   });
   musicButton.addEventListener("click", toggleMusic);
+  scene.addEventListener("click", skipCurrentMessage);
 
   resizeCanvases();
   startAnimation();
