@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="接月饼：60 秒中秋接饼小游戏。">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>接月饼</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ccircle cx='32' cy='32' r='19' fill='%23c08a4a'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./game.css">
+    <script defer src="./game.js"></script>
+  </head>
+  <body>
+    <div class="game" id="game" data-state="start">
+      <main class="stage" id="stage" aria-label="接月饼小游戏">
+        <canvas class="playfield" id="playfield" aria-hidden="true"></canvas>
+
+        <div class="hud" id="hud" hidden>
+          <p class="hud-item">
+            <span class="hud-label">剩余</span>
+            <span class="hud-value" id="hud-time">60</span>
+            <span class="hud-unit">秒</span>
+          </p>
+          <p class="hud-item hud-item-score">
+            <span class="hud-label">分数</span>
+            <span class="hud-value" id="hud-score">0</span>
+          </p>
+        </div>
+
+        <section class="panel" id="panel-start">
+          <h1 class="title">接月饼</h1>
+          <p class="tagline">60 秒内接住落下的月饼</p>
+          <p class="rule">普通月饼 <b>+10</b> 分 · 金月饼 <b>+50</b> 分</p>
+          <p class="best">最高分 <span class="best-value" id="best-start">0</span></p>
+          <button class="button" id="btn-start" type="button">开始游戏</button>
+          <p class="hint">拖动篮子，或按 ← / → 移动</p>
+        </section>
+
+        <section class="panel" id="panel-over" hidden>
+          <h2 class="title title-over">本局结束</h2>
+          <p class="final">得分 <span class="final-value" id="final-score">0</span></p>
+          <p class="best">最高分 <span class="best-value" id="best-over">0</span></p>
+          <button class="button" id="btn-again" type="button">再来一局</button>
+        </section>
+
+        <p class="sr-only" id="sr-status" aria-live="polite" aria-atomic="true">接月饼准备开始</p>
+        <noscript><p class="no-script-message">接月饼需要开启 JavaScript</p></noscript>
+      </main>
+    </div>
+  </body>
+</html>
