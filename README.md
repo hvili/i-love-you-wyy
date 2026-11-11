@@ -38,3 +38,4 @@ python -m http.server 8080
 - 页面进入后台时暂停动画帧；返回前台后继续播放。
 - `test_output/` 是本地验收截图目录，不属于发布内容。
 本项目无需构建步骤，直接用浏览器打开 index.html 即可。
+代码任务由 dsh-superagent 自动执行（当前实例运行于 AWS）。
