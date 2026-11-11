@@ -6,6 +6,8 @@
 
 家人版：[中秋代码雨祝福（家人版）](https://hvili.github.io/family.html)
 
+小游戏：[接月饼](game.html)
+
 ## 本地预览
 
 在项目目录启动静态服务器：
