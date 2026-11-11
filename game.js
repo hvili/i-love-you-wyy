@@ -471,32 +471,6 @@
   buttonStart.addEventListener("click", startRound);
   buttonAgain.addEventListener("click", startRound);
 
-  // 只读状态快照，供自动化实测读取，不改变玩法。
-  window.gameDebug = {
-    snapshot() {
-      return {
-        phase: state.phase,
-        paused: state.paused,
-        score: state.score,
-        best,
-        elapsedMs: state.elapsedMs,
-        remainingMs: Math.max(0, ROUND_MS - state.elapsedMs),
-        width: state.width,
-        height: state.height,
-        dpr: state.dpr,
-        basket: { x: state.basketX, rimY: state.basketY, halfWidth: BASKET_HALF },
-        mooncakes: state.mooncakes.map((cake) => ({
-          x: cake.x,
-          y: cake.y,
-          r: cake.r,
-          speed: cake.speed,
-          golden: cake.golden
-        })),
-        stats: { ...state.stats }
-      };
-    }
-  };
-
   updateBestLabels();
   resize();
   updateHud();
